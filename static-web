@@ -1,0 +1,34 @@
+---
+  - name: deploy static html site 
+    hosts: lb
+    become: true
+    tasks: 
+      - name: create webadmin user
+        user: > 
+          name=webadmin
+          state=present
+      
+      - name: install git 
+        package: > 
+          name=git 
+          
+      - name: add nginx repo 
+        yum_repository: > 
+          name=nginx
+          description='Nginx Official Repo'
+          baseurl=http://nginx.org/packages/centos/6/x86_64/
+          gpgcheck=no
+          
+      - name: install nginx
+        package: > 
+          name=nginx
+      - name: start nginx
+        service: > 
+          name=nginx
+          state=started
+          enabled=true
+         
+      - name: deploy app
+        git: > 
+          repo=https://github.com/schoolofdevops/html-sample-app.git
+          dest=/usr/share/nginx/html/app
