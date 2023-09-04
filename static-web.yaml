@@ -1,6 +1,6 @@
 ---
   - name: deploy static html site 
-    hosts: lb
+    hosts: all
     become: true
     tasks: 
       - name: create webadmin user
